@@ -198,6 +198,7 @@ int main() {
 				cout << "3 - Вывести количество объектов списка." << endl;
 				cout << "4 - Удалить выбранный объект." << endl;
 				cout << "5 - Удалить объект из прямоугольной области." << endl;
+				cout << "6 - Вывести графическую карту." << endl;
 				cout << "100 - Удалить список и выйти из программы." << endl;
 				cin >> a;
 				
@@ -213,12 +214,21 @@ int main() {
 					//cout << "y: ";
 					//cin >> y;
 					//add_start(head, x, y, n_name);
-					add_start(head, 0, 1, "sdgfs");
-					add_start(head, 14, -1, "fsf");
-					add_start(head, 4, -11, "asfaa");
-					add_start(head, 1, 12, "geq");
-					add_start(head, 1, 1, "hrw");
-					add_start(head, 13, 22, "wegb");
+					add_start(head, 5, 3, "Центральный_вокзал");
+					add_start(head, -7, -2, "Озеро_Светлое");
+					add_start(head, 10, 15, "Гора_Ветров");
+					add_start(head, -5, 8, "Музей_Искусств");
+					add_start(head, 0, -4, "Городская_библиотека");
+					add_start(head, 12, -10, "Маяк_Старого_порта");
+					add_start(head, -15, 6, "Ботанический_сад");
+					add_start(head, 3, 0, "Парк_Победы");
+					add_start(head, 8, -8, "Старый_форт");
+					add_start(head, -3, -12, "Рыбацкая_деревня");
+					add_start(head, 20, 5, "Аэропорт_Северный");
+					add_start(head, -10, -5, "Заповедник_Лесной");
+					add_start(head, 7, 9, "Театр_Драмы");
+					add_start(head, 0, 0, "Площадь_Звезд");
+					add_start(head, 18, -3, "Водопад_Радужный");
 					break;
 				}
 				case 2: {
