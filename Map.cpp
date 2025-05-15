@@ -1,4 +1,4 @@
-#include <iostream>
+Ôªø#include <iostream>
 #include <clocale>
 #include <Windows.h>
 #include <string>
@@ -28,7 +28,7 @@ void add_start(object* head, int p_x, int p_y, const string& p_name) {
 	new_object->next = head->next;
 	head->next = new_object;
 
-	cout << "ÕÓ‚˚È Ó·˙ÂÍÚ ÛÒÔÂ¯ÌÓ ‰Ó·‡‚ÎÂÌ." << endl;
+	cout << "–ù–æ–≤—ã–π –æ–±—ä–µ–∫—Ç —É—Å–ø–µ—à–Ω–æ –¥–æ–±–∞–≤–ª–µ–Ω." << endl;
 }
 
 void delete_object(object* head, int number) {
@@ -41,7 +41,7 @@ void delete_object(object* head, int number) {
 	object* cur = head->next;
 	for (int i = 1; i < number; i++) {
 		if (!cur) {
-			cout << "¬ ÒÔËÒÍÂ ÌÂÚ ˝ÎÂÏÂÌÚ‡ Ò Á‡‰‡ÌÌ˚Ï ÌÓÏÂÓÏ. " << endl;
+			cout << "–í —Å–ø–∏—Å–∫–µ –Ω–µ—Ç —ç–ª–µ–º–µ–Ω—Ç–∞ —Å –∑–∞–¥–∞–Ω–Ω—ã–º –Ω–æ–º–µ—Ä–æ–º. " << endl;
 			return;
 		}
 		prev = prev->next;
@@ -68,7 +68,7 @@ void print_map_objects(object* head) {
 	int i = 1;
 	cout << endl;
 	if (!temp) {
-		cout << "¬‡¯ ÒÔËÒÓÍ ÔÛÒÚ." << endl;
+		cout << "–í–∞—à —Å–ø–∏—Å–æ–∫ –ø—É—Å—Ç." << endl;
 		return;
 	}
 	while (temp) {
@@ -105,6 +105,78 @@ void delete_in_rect(object* head, int min_x, int max_x, int min_y, int max_y) {
 	}
 }
 
+void print_ascii_map(object* head) {
+	object* temp = head->next;
+
+	if (!temp) {
+		cout << "–ö–∞—Ä—Ç–∞ –ø—É—Å—Ç–∞." << endl;
+		return;
+	}
+
+	// –®–∞–≥ 1: –ù–∞—Ö–æ–¥–∏–º –≥—Ä–∞–Ω–∏—Ü—ã –∫–∞—Ä—Ç—ã (—Å —É—á–µ—Ç–æ–º –æ—Å–µ–π)
+	int min_x = temp->x, max_x = temp->x;
+	int min_y = temp->y, max_y = temp->y;
+
+	// –£—á–∏—Ç—ã–≤–∞–µ–º –æ—Å–∏ (0,0) –≤ –≥—Ä–∞–Ω–∏—Ü–∞—Ö, –¥–∞–∂–µ –µ—Å–ª–∏ –æ–±—ä–µ–∫—Ç–æ–≤ —Ç–∞–º –Ω–µ—Ç
+	while (temp) {
+		if (temp->x < min_x) min_x = temp->x;
+		if (temp->x > max_x) max_x = temp->x;
+		if (temp->y < min_y) min_y = temp->y;
+		if (temp->y > max_y) max_y = temp->y;
+		temp = temp->next;
+	}
+
+	// –ì–∞—Ä–∞–Ω—Ç–∏—Ä—É–µ–º, —á—Ç–æ –æ—Å–∏ –±—É–¥—É—Ç –≤–∏–¥–Ω—ã
+	min_x = min(min_x, 0);
+	max_x = max(max_x, 0);
+	min_y = min(min_y, 0);
+	max_y = max(max_y, 0);
+
+	// –†–∞—Å—à–∏—Ä—è–µ–º –≥—Ä–∞–Ω–∏—Ü—ã –¥–ª—è –Ω–∞–≥–ª—è–¥–Ω–æ—Å—Ç–∏
+	min_x -= 2; max_x += 2;
+	min_y -= 2; max_y += 2;
+
+	// –®–∞–≥ 2: –†–∏—Å—É–µ–º –æ—Å–∏ –∏ –æ–±—ä–µ–∫—Ç—ã
+	for (int y = max_y; y >= min_y; y--) {
+		for (int x = min_x; x <= max_x; x++) {
+			bool is_object_here = false;
+			object* current = head->next;
+
+			// –ü—Ä–æ–≤–µ—Ä—è–µ–º, –µ—Å—Ç—å –ª–∏ –æ–±—ä–µ–∫—Ç –≤ (x, y)
+			while (current) {
+				if (current->x == x && current->y == y) {
+					is_object_here = true;
+					break;
+				}
+				current = current->next;
+			}
+
+			// –í—ã–≤–æ–¥–∏–º —Å–∏–º–≤–æ–ª (–æ–±—ä–µ–∫—Ç—ã –∏–º–µ—é—Ç –ø—Ä–∏–æ—Ä–∏—Ç–µ—Ç –Ω–∞–¥ –æ—Å—è–º–∏)
+			if (is_object_here) {
+				cout << "O";
+			}
+			else if (x == 0 && y == 0) {
+				cout << "+";  // –ù–∞—á–∞–ª–æ –∫–æ–æ—Ä–¥–∏–Ω–∞—Ç
+			}
+			else if (y == 0) {
+				cout << "-";  // –û—Å—å X
+			}
+			else if (x == 0) {
+				cout << "|";  // –û—Å—å Y
+			}
+			else {
+				cout << "¬∑";  // –ü—É—Å—Ç–æ–µ –ø—Ä–æ—Å—Ç—Ä–∞–Ω—Å—Ç–≤–æ
+			}
+		}
+		cout << endl;
+	}
+
+	// –ü–æ–¥–ø–∏—Å—å –æ—Å–µ–π
+	cout << "   Y\n   ‚Üë\n";
+	cout << "   +‚Üí X\n";
+}
+
+
 int main() {
 	setlocale(LC_ALL, "Russian");
 	SetConsoleCP(1251);
@@ -114,33 +186,39 @@ int main() {
 	int a;
 	a = 0;
 
-	cout << "¬˚·ÂËÚÂ ‰ÂÈÒÚ‚ËÂ: \n1. —ÓÁ‰‡Ú¸ ÒÔËÒÓÍ.\n2. ¬˚ÈÚË ËÁ ÔÓ„‡ÏÏ˚.\n"; 
+	cout << "–í—ã–±–µ—Ä–∏—Ç–µ –¥–µ–π—Å—Ç–≤–∏–µ: \n1. –°–æ–∑–¥–∞—Ç—å —Å–ø–∏—Å–æ–∫.\n2. –í—ã–π—Ç–∏ –∏–∑ –ø—Ä–æ–≥—Ä–∞–º–º—ã.\n"; 
 	cin >> a;
 	
 	if (a == 1) {
 		object* head = create_head();
 			while (a != 100) {
-				cout << "¬˚·ÂËÚÂ ‰ÂÈÒÚ‚ËÂ:" << endl;
-				cout << "1 - ƒÓ·‡‚ËÚ¸ Ó·˙ÂÍÚ." << endl;
-				cout << "2 - ¬˚‚ÂÒÚË ÒÔËÒÓÍ Ó·˙ÂÍÚÓ‚." << endl;
-				cout << "3 - ¬˚‚ÂÒÚË ÍÓÎË˜ÂÒÚ‚Ó Ó·˙ÂÍÚÓ‚ ÒÔËÒÍ‡." << endl;
-				cout << "4 - ”‰‡ÎËÚ¸ ‚˚·‡ÌÌ˚È Ó·˙ÂÍÚ." << endl;
-				cout << "5 - ”‰‡ÎËÚ¸ Ó·˙ÂÍÚ ËÁ ÔˇÏÓÛ„ÓÎ¸ÌÓÈ Ó·Î‡ÒÚË." << endl;
-				cout << "100 - ”‰‡ÎËÚ¸ ÒÔËÒÓÍ Ë ‚˚ÈÚË ËÁ ÔÓ„‡ÏÏ˚." << endl;
+				cout << "\n–í—ã–±–µ—Ä–∏—Ç–µ –¥–µ–π—Å—Ç–≤–∏–µ:" << endl;
+				cout << "1 - –î–æ–±–∞–≤–∏—Ç—å –æ–±—ä–µ–∫—Ç." << endl;
+				cout << "2 - –í—ã–≤–µ—Å—Ç–∏ —Å–ø–∏—Å–æ–∫ –æ–±—ä–µ–∫—Ç–æ–≤." << endl;
+				cout << "3 - –í—ã–≤–µ—Å—Ç–∏ –∫–æ–ª–∏—á–µ—Å—Ç–≤–æ –æ–±—ä–µ–∫—Ç–æ–≤ —Å–ø–∏—Å–∫–∞." << endl;
+				cout << "4 - –£–¥–∞–ª–∏—Ç—å –≤—ã–±—Ä–∞–Ω–Ω—ã–π –æ–±—ä–µ–∫—Ç." << endl;
+				cout << "5 - –£–¥–∞–ª–∏—Ç—å –æ–±—ä–µ–∫—Ç –∏–∑ –ø—Ä—è–º–æ—É–≥–æ–ª—å–Ω–æ–π –æ–±–ª–∞—Å—Ç–∏." << endl;
+				cout << "100 - –£–¥–∞–ª–∏—Ç—å —Å–ø–∏—Å–æ–∫ –∏ –≤—ã–π—Ç–∏ –∏–∑ –ø—Ä–æ–≥—Ä–∞–º–º—ã." << endl;
 				cin >> a;
 				
 				switch (a) {
 				case 1: {
-					cout << "¬‚Â‰ËÚÂ ‰‡ÌÌ˚Â:\n";
-					int x, y;
-					string n_name;
-					cout << "Õ‡Á‚‡ÌËÂ: ";
-					cin >> n_name;
-					cout << "x: ";
-					cin >> x;
-					cout << "y: ";
-					cin >> y;
-					add_start(head, x, y, n_name);
+					//cout << "–í–≤–µ–¥–∏—Ç–µ –¥–∞–Ω–Ω—ã–µ:\n";
+					//int x, y;
+					//string n_name;
+					//cout << "–ù–∞–∑–≤–∞–Ω–∏–µ: ";
+					//cin >> n_name;
+					//cout << "x: ";
+					//cin >> x;
+					//cout << "y: ";
+					//cin >> y;
+					//add_start(head, x, y, n_name);
+					add_start(head, 0, 1, "sdgfs");
+					add_start(head, 14, -1, "fsf");
+					add_start(head, 4, -11, "asfaa");
+					add_start(head, 1, 12, "geq");
+					add_start(head, 1, 1, "hrw");
+					add_start(head, 13, 22, "wegb");
 					break;
 				}
 				case 2: {
@@ -154,36 +232,38 @@ int main() {
 				}
 				case 4: {
 					int n;
-					cout << "¬‚Â‰ËÚÂ ÌÓÏÂ Û‰‡ÎˇÂÏÓ„Ó ˝ÎÂÏÂÌÚ‡: ";
+					cout << "–í–≤–µ–¥–∏—Ç–µ –Ω–æ–º–µ—Ä —É–¥–∞–ª—è–µ–º–æ–≥–æ —ç–ª–µ–º–µ–Ω—Ç–∞: ";
 					cin >> n;
 					delete_object(head, n);
 					break;
 				}
 				case 5: {
-					cout << "¬‚Â‰ËÚÂ ‰‡ÌÌ˚Â:\n";
+					cout << "–í–≤–µ–¥–∏—Ç–µ –¥–∞–Ω–Ω—ã–µ:\n";
 					int min_x, max_x,  min_y, max_y;
 					string n_name;
-					cout << "Õ‡˜‡Î¸Ì˚È x: ";
+					cout << "–ù–∞—á–∞–ª—å–Ω—ã–π x: ";
 					cin >> min_x;
-					cout << " ÓÌÂ˜Ì˚È x: ";
+					cout << "–ö–æ–Ω–µ—á–Ω—ã–π x: ";
 					cin >> max_x;
-					cout << "Õ‡˜‡Î¸Ì˚È y: ";
+					cout << "–ù–∞—á–∞–ª—å–Ω—ã–π y: ";
 					cin >> min_y;
-					cout << " ÓÌÂ˜Ì˚È y: ";
+					cout << "–ö–æ–Ω–µ—á–Ω—ã–π y: ";
 					cin >> max_y;
 					delete_in_rect(head, min_x, max_x, min_y, max_y);
 					break;
 				}
+				case 6: 
+					print_ascii_map(head);
 				case 100: 
 					break;
 				default:
 					break;
 				}
 			}
-			cout << "—ÔËÒÓÍ Û‰‡ÎÂÌ, ÔÓ„‡ÏÏ‡ Á‡Í˚Ú‡.\n";
+			cout << "–°–ø–∏—Å–æ–∫ —É–¥–∞–ª–µ–Ω, –ø—Ä–æ–≥—Ä–∞–º–º–∞ –∑–∞–∫—Ä—ã—Ç–∞.\n";
 	}
 	else {
-		cout << "œÓ„‡ÏÏ‡ Á‡Í˚Ú‡";
+		cout << "–ü—Ä–æ–≥—Ä–∞–º–º–∞ –∑–∞–∫—Ä—ã—Ç–∞";
 	}
 	return 0;
 }
