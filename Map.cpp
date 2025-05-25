@@ -2,11 +2,13 @@
 #include <clocale>
 #include <Windows.h>
 #include <string>
+#include <iomanip>
+
 
 using namespace std;
 
 struct object{
-	int x, y;
+	double x, y; // x-долгота y-широта
 	string name;
 	object* next;
 };
@@ -19,10 +21,21 @@ object* create_head() {
 	return head;
 }
 
-void add_start(object* head, int p_x, int p_y, const string& p_name) {
-	object* new_object = new object; 
-	new_object->x = p_x;
+void add_start(object* head, double p_y, double p_x, const string& p_name) {
+
+	if (p_x < -180.0 || p_x > 180.0) {
+		cout << "Ошибка: долгота должна быть в диапазоне от -180 до 180 градусов." << endl;
+		return;
+	}
+
+	if (p_y < -90.0 || p_y > 90.0) {
+		cout << "Ошибка: широта должна быть в диапазоне от -90 до 90 градусов." << endl;
+		return;
+	}
+
+	object* new_object = new object;
 	new_object->y = p_y;
+	new_object->x = p_x;
 	new_object->name = p_name;
 
 	new_object->next = head->next;
@@ -53,7 +66,6 @@ void delete_object(object* head, int number) {
 }
 
 void delete_all(object* head) {
-	//object* temp = head;
 	object * current = head->next; 
 	while (current) {
 		head->next = current->next;
@@ -63,7 +75,7 @@ void delete_all(object* head) {
 	delete head;
 }
 
-void print_map_objects(object* head) {
+void print_objects(object* head) {
 	object* temp = head->next;
 	int i = 1;
 	cout << endl;
@@ -72,7 +84,7 @@ void print_map_objects(object* head) {
 		return;
 	}
 	while (temp) {
-		cout << i << ". Name: " << temp->name << "; x: " << temp->x << "; y: " << temp->y << ";" << endl;
+		cout << i << ". Name: " << temp->name << "; Широта: " << temp->y << "; Долгота: " << temp->x << ";" << setprecision(5) << endl;
 		temp = temp->next;
 		i++;
 	}
@@ -88,7 +100,7 @@ int count_objects(object* head) {
 	return i;
 }
 
-void delete_in_rect(object* head, int min_x, int max_x, int min_y, int max_y) {
+void delete_in_rect(object* head, int min_y, int max_y, int min_x, int max_x) {
 	object* temp = head;
 	object* cur = head->next;
 
@@ -113,11 +125,9 @@ void print_ascii_map(object* head) {
 		return;
 	}
 
-	// Шаг 1: Находим границы карты (с учетом осей)
 	int min_x = temp->x, max_x = temp->x;
 	int min_y = temp->y, max_y = temp->y;
 
-	// Учитываем оси (0,0) в границах, даже если объектов там нет
 	while (temp) {
 		if (temp->x < min_x) min_x = temp->x;
 		if (temp->x > max_x) max_x = temp->x;
@@ -126,62 +136,61 @@ void print_ascii_map(object* head) {
 		temp = temp->next;
 	}
 
-	// Гарантируем, что оси будут видны
 	min_x = min(min_x, 0);
 	max_x = max(max_x, 0);
 	min_y = min(min_y, 0);
 	max_y = max(max_y, 0);
 
-	// Расширяем границы для наглядности
 	min_x -= 2; max_x += 2;
 	min_y -= 2; max_y += 2;
 
-	// Шаг 2: Рисуем оси и объекты
-	for (int y = max_y; y >= min_y; y--) {
+	for (int i = min_x; i < 0; i++) {
+		cout << " ";
+	}
+	cout << "0 (Широта)" << endl;
+
+
+	for (int y = max_y+1; y >= min_y; y--) {
 		for (int x = min_x; x <= max_x; x++) {
 			bool is_object_here = false;
 			object* current = head->next;
 
-			// Проверяем, есть ли объект в (x, y)
 			while (current) {
-				if (current->x == x && current->y == y) {
+				if (int (current->x )== x && int (current->y) == y) {
 					is_object_here = true;
 					break;
 				}
 				current = current->next;
 			}
 
-			// Выводим символ (объекты имеют приоритет над осями)
 			if (is_object_here) {
 				cout << "O";
 			}
 			else if (x == 0 && y == 0) {
-				cout << "+";  // Начало координат
+				cout << "+";  
 			}
 			else if (y == 0) {
-				cout << "-";  // Ось X
+				cout << "-";  
+				if (x == max_x) {
+					cout << " 0 (Долгота)";
+				}
 			}
 			else if (x == 0) {
-				cout << "|";  // Ось Y
+				cout << "|";
 			}
 			else {
-				cout << "·";  // Пустое пространство
+				cout << "·"; 
 			}
 		}
 		cout << endl;
 	}
 
-	// Подпись осей
-	cout << "   Y\n   ↑\n";
-	cout << "   +→ X\n";
 }
-
 
 int main() {
 	setlocale(LC_ALL, "Russian");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-
 
 	int a;
 	a = 0;
@@ -204,20 +213,23 @@ int main() {
 				
 				switch (a) {
 				case 1: {
-					//cout << "Введите данные:\n";
-					//int x, y;
-					//string n_name;
-					//cout << "Название: ";
-					//cin >> n_name;
-					//cout << "x: ";
-					//cin >> x;
-					//cout << "y: ";
-					//cin >> y;
-					//add_start(head, x, y, n_name);
-					add_start(head, 5, 3, "Центральный_вокзал");
+					/*cin.ignore();
+					cout << "Введите данные:\n";
+					double x, y;
+					string n_name;
+					cout << "Название: ";
+					getline(cin, n_name);
+					cout << "Широта [-90; 90]: ";
+					cin >> y;
+					cout << "Долгота [-180; 180]: ";
+					cin >> x;
+					add_start(head, y, x, n_name);*/
+					
+
+					add_start(head, -5.2, 3.9, "Центральный_вокзал");
 					add_start(head, -7, -2, "Озеро_Светлое");
-					add_start(head, 10, 15, "Гора_Ветров");
-					add_start(head, -5, 8, "Музей_Искусств");
+					add_start(head, 10.133, 15.6, "Гора_Ветров");
+					/*add_start(head, -5, 8, "Музей_Искусств");
 					add_start(head, 0, -4, "Городская_библиотека");
 					add_start(head, 12, -10, "Маяк_Старого_порта");
 					add_start(head, -15, 6, "Ботанический_сад");
@@ -229,10 +241,12 @@ int main() {
 					add_start(head, 7, 9, "Театр_Драмы");
 					add_start(head, 0, 0, "Площадь_Звезд");
 					add_start(head, 18, -3, "Водопад_Радужный");
+					*/
+
 					break;
 				}
 				case 2: {
-					print_map_objects(head);
+					print_objects(head);
 					break;
 				}
 				case 3: {
@@ -249,17 +263,20 @@ int main() {
 				}
 				case 5: {
 					cout << "Введите данные:\n";
+
 					int min_x, max_x,  min_y, max_y;
 					string n_name;
-					cout << "Начальный x: ";
-					cin >> min_x;
-					cout << "Конечный x: ";
-					cin >> max_x;
-					cout << "Начальный y: ";
+
+					cout << "Минимальная Широта: ";
 					cin >> min_y;
-					cout << "Конечный y: ";
+					cout << "Максимальная Широта: ";
 					cin >> max_y;
-					delete_in_rect(head, min_x, max_x, min_y, max_y);
+					cout << "Минимальная долгота: ";
+					cin >> min_x;
+					cout << "Максимальная долгота: ";
+					cin >> max_x;
+
+					delete_in_rect(head, min_y, max_y, min_x, max_x);
 					break;
 				}
 				case 6: 
@@ -275,5 +292,6 @@ int main() {
 	else {
 		cout << "Программа закрыта";
 	}
+	
 	return 0;
 }
