@@ -281,6 +281,7 @@ int main() {
 				}
 				case 6: 
 					print_ascii_map(head);
+					break;
 				case 100: 
 					break;
 				default:
