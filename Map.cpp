@@ -228,7 +228,7 @@ int main() {
 				
 				switch (a) {
 				case 1: {
-					/*cin.ignore();
+					cin.ignore();
 					cout << "Введите данные:\n";
 					double x, y;
 					string n_name;
@@ -238,26 +238,7 @@ int main() {
 					cin >> y;
 					cout << "Долгота [-180; 180]: ";
 					cin >> x;
-					add_start(head, y, x, n_name);*/
-					
-
-					add_start(head, -5.2, 3.9, "Центральный_вокзал");
-					add_start(head, -7, -2, "Озеро_Светлое");
-					add_start(head, 10.133, 15.6, "Гора_Ветров");
-					/*add_start(head, -5, 8, "Музей_Искусств");
-					add_start(head, 0, -4, "Городская_библиотека");
-					add_start(head, 12, -10, "Маяк_Старого_порта");
-					add_start(head, -15, 6, "Ботанический_сад");
-					add_start(head, 3, 0, "Парк_Победы");
-					add_start(head, 8, -8, "Старый_форт");
-					add_start(head, -3, -12, "Рыбацкая_деревня");
-					add_start(head, 20, 5, "Аэропорт_Северный");
-					add_start(head, -10, -5, "Заповедник_Лесной");
-					add_start(head, 7, 9, "Театр_Драмы");
-					add_start(head, 0, 0, "Площадь_Звезд");
-					add_start(head, 18, -3, "Водопад_Радужный");
-					*/
-
+					add_start(head, y, x, n_name);
 					break;
 				}
 				case 2: {
@@ -270,11 +251,12 @@ int main() {
 					break;
 				}
 				case 4: {
-					string name;
+					cin.ignore();
+					string n_name;
 					cout << "Введите название искомого объекта: ";
-					cin >> name;
+					getline(cin, n_name);
 					cout << endl;
-					search_objects(head, name);
+					search_objects(head, n_name);
 					break;
 				}
 				case 5: {
