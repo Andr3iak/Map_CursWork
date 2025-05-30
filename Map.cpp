@@ -50,7 +50,7 @@ void search_objects(object* head, const string& search_name) {
 	object* current = head->next;
 	while (current != nullptr) {
 		if (current->name == search_name) {
-			cout << "Name: " << current->name << "; Широта: " << current->y << "; Долгота: " << current->x << ";" << setprecision(5) << endl;
+			cout << "Name: " << current->name << "; Широта: " << fixed << setprecision(5) << current->y << "; Долгота: " << current->x << ";" << endl;
 			return;
 		}
 		current = current->next;
@@ -98,7 +98,7 @@ void print_objects(object* head) {
 		return;
 	}
 	while (temp) {
-		cout << i << ". Name: " << temp->name << "; Широта: " << temp->y << "; Долгота: " << temp->x << ";" << setprecision(5) << endl;
+		cout << i << ". Name: " << temp->name << "; Широта: " << fixed << setprecision(5) << temp->y << "; Долгота: " << temp->x << ";" << endl;
 		temp = temp->next;
 		i++;
 	}
