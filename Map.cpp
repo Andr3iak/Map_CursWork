@@ -44,6 +44,20 @@ void add_start(object* head, double p_y, double p_x, const string& p_name) {
 	cout << "Новый объект успешно добавлен." << endl;
 }
 
+
+void search_objects(object* head, const string& search_name) {
+
+	object* current = head->next;
+	while (current != nullptr) {
+		if (current->name == search_name) {
+			cout << "Name: " << current->name << "; Широта: " << current->y << "; Долгота: " << current->x << ";" << setprecision(5) << endl;
+			return;
+		}
+		current = current->next;
+	}
+	cout << "Объект не найден." << endl;
+}
+
 void delete_object(object* head, int number) {
 
 	if (number < 1) {
@@ -205,9 +219,10 @@ int main() {
 				cout << "1 - Добавить объект." << endl;
 				cout << "2 - Вывести список объектов." << endl;
 				cout << "3 - Вывести количество объектов списка." << endl;
-				cout << "4 - Удалить выбранный объект." << endl;
-				cout << "5 - Удалить объект из прямоугольной области." << endl;
-				cout << "6 - Вывести графическую карту." << endl;
+				cout << "4 - Найти элемент по его названию." << endl;
+				cout << "5 - Удалить выбранный объект." << endl;
+				cout << "6 - Удалить объект из прямоугольной области." << endl;
+				cout << "7 - Вывести графическую карту." << endl;
 				cout << "100 - Удалить список и выйти из программы." << endl;
 				cin >> a;
 				
@@ -255,13 +270,21 @@ int main() {
 					break;
 				}
 				case 4: {
+					string name;
+					cout << "Введите название искомого объекта: ";
+					cin >> name;
+					cout << endl;
+					search_objects(head, name);
+					break;
+				}
+				case 5: {
 					int n;
 					cout << "Введите номер удаляемого элемента: ";
 					cin >> n;
 					delete_object(head, n);
 					break;
 				}
-				case 5: {
+				case 6: {
 					cout << "Введите данные:\n";
 
 					int min_x, max_x,  min_y, max_y;
@@ -279,7 +302,7 @@ int main() {
 					delete_in_rect(head, min_y, max_y, min_x, max_x);
 					break;
 				}
-				case 6: 
+				case 7: 
 					print_ascii_map(head);
 					break;
 				case 100: 
