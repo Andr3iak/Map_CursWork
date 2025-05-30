@@ -114,7 +114,7 @@ int count_objects(object* head) {
 	return i;
 }
 
-void delete_in_rect(object* head, int min_y, int max_y, int min_x, int max_x) {
+void delete_in_rect(object* head, double min_y, double max_y, double min_x, double max_x) {
 	object* temp = head;
 	object* cur = head->next;
 
@@ -287,7 +287,7 @@ int main() {
 				case 6: {
 					cout << "Введите данные:\n";
 
-					int min_x, max_x,  min_y, max_y;
+					double min_x, max_x,  min_y, max_y;
 					string n_name;
 
 					cout << "Минимальная Широта: ";
@@ -300,6 +300,7 @@ int main() {
 					cin >> max_x;
 
 					delete_in_rect(head, min_y, max_y, min_x, max_x);
+					cout << "Удаление завершено" << endl;
 					break;
 				}
 				case 7: 
